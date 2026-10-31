@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ATR Ciclismo e Indumentaria</title>
+<meta name="description" content="Indumentaria deportiva de calidad y diseños exclusivos y personalizados para ciclismo, running, caminatas y gimnasio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== CAMBIÁ COLORES Y TIPOGRAFÍAS ACÁ ===== */
+:root{
+  --bg:#0A0C09; --card:#171A14; --accent:#C8FF1A; --text:#F3F5EC; --muted:#8A9080; --line:#262A21;
+  --f-title:'Barlow Condensed','Arial Narrow','Impact',sans-serif;
+  --f-body:'Barlow','Segoe UI',Arial,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--bg);color:var(--text);font:400 1rem/1.6 var(--f-body);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{width:min(1180px,100% - 2.5rem);margin-inline:auto}
+section{padding:5rem 0;position:relative}
+.eyebrow{font:800 .85rem/1 var(--f-title);letter-spacing:.3em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
+.eyebrow:before{content:"";width:2.2rem;height:3px;background:var(--accent);transform:skewX(-30deg)}
+h2{font:900 clamp(2.4rem,8vw,5rem)/.92 var(--f-title);text-transform:uppercase;letter-spacing:-.01em}
+h2 em{font-style:normal;color:var(--accent)}
+.lead{color:var(--muted);max-width:52ch;margin-top:1rem}
+.mark{outline:1px dashed var(--accent);outline-offset:3px}
+
+/* progreso + brillo del mouse */
+#prog{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:100;box-shadow:0 0 12px var(--accent)}
+#glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;left:0;top:0;background:radial-gradient(circle,rgba(200,255,26,.13),transparent 65%);transform:translate(-50%,-50%);opacity:0;transition:opacity .4s}
+
+/* botones */
+.btn{position:relative;display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.7rem;font:800 1.05rem/1 var(--f-title);letter-spacing:.12em;text-transform:uppercase;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);transition:transform .3s var(--ease),background .3s,color .3s;overflow:hidden}
+.btn:hover{transform:translateY(-3px)}
+.btn-main{background:var(--accent);color:#0A0C09}
+.btn-main:after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);transition:left .6s}
+.btn-main:hover:after{left:130%}
+.btn-line{background:var(--text);color:#0A0C09}
+.btn-line:hover{background:var(--accent)}
+.btn-ghost{background:transparent;color:var(--text);box-shadow:inset 0 0 0 2px var(--muted);clip-path:none}
+.btn-ghost:hover{box-shadow:inset 0 0 0 2px var(--accent);color:var(--accent)}
+
+/* header */
+header{position:fixed;inset:0 0 auto 0;z-index:60;transition:background .3s,backdrop-filter .3s}
+header.sc{background:rgba(10,12,9,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font:900 1.7rem/1 var(--f-title);letter-spacing:.04em;text-transform:uppercase}
+.logo b{color:var(--accent)}
+.menu{display:flex;gap:2rem;list-style:none}
+.menu a{font:600 .95rem/1 var(--f-title);letter-spacing:.18em;text-transform:uppercase;position:relative;padding:.4rem 0}
+.menu a:after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--accent);transition:width .3s var(--ease)}
+.menu a:hover:after{width:100%}
+.burger{display:none;width:44px;height:44px;position:relative;z-index:70}
+.burger i{position:absolute;left:10px;right:10px;height:3px;background:var(--text);transition:.4s var(--ease)}
+.burger i:nth-child(1){top:15px}.burger i:nth-child(2){top:21px;right:20px}.burger i:nth-child(3){top:27px}
+.burger.on i:nth-child(1){top:21px;transform:rotate(45deg);background:var(--accent)}
+.burger.on i:nth-child(2){opacity:0}
+.burger.on i:nth-child(3){top:21px;transform:rotate(-45deg);background:var(--accent)}
+
+/* portada */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:6rem 0 0;overflow:hidden}
+.lines{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.lines span{position:absolute;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);width:40vw;opacity:.0;transform:rotate(-18deg);animation:dash 3.2s linear infinite}
+.lines span:nth-child(1){top:18%;left:-40vw}
+.lines span:nth-child(2){top:34%;left:-40vw;animation-delay:.9s;width:55vw}
+.lines span:nth-child(3){top:62%;left:-40vw;animation-delay:1.6s}
+.lines span:nth-child(4){top:80%;left:-40vw;animation-delay:2.3s;width:30vw}
+@keyframes dash{0%{transform:translateX(0) rotate(-18deg);opacity:0}15%{opacity:.7}100%{transform:translateX(190vw) rotate(-18deg);opacity:0}}
+.hero h1{font:900 clamp(4.2rem,21vw,15rem)/.82 var(--f-title);text-transform:uppercase;letter-spacing:-.02em;position:relative}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.04em}
+.hero h1 .ln:nth-child(2){color:transparent;-webkit-text-stroke:2px var(--text);padding-left:.4em}
+.hero h1 .ln:nth-child(3){color:var(--accent)}
+.hero h1 .ch{display:inline-block;transform:translateY(110%) skewY(8deg);animation:up .9s var(--ease) forwards}
+@keyframes up{to{transform:none}}
+.hero-bottom{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;align-items:flex-end;justify-content:space-between;margin-top:2.2rem;opacity:0;animation:fade 1s .9s forwards}
+@keyframes fade{to{opacity:1}}
+.hero-bottom p{max-width:36ch;color:var(--muted);font-size:1.1rem}
+.hero-cta{display:flex;flex-wrap:wrap;gap:1rem}
+.ticker{margin-top:3rem;border-block:1px solid var(--line);background:var(--accent);color:#0A0C09;overflow:hidden;transform:rotate(-1.2deg);width:104%;margin-left:-2%}
+.ticker div{display:flex;width:max-content;animation:tick 22s linear infinite}
+.ticker span{font:900 1.6rem/1 var(--f-title);letter-spacing:.12em;text-transform:uppercase;padding:.8rem 1.6rem;white-space:nowrap}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* catálogo */
+.filters{display:flex;flex-wrap:wrap;gap:.6rem;margin:2rem 0}
+.fbtn{padding:.6rem 1.2rem;font:800 .95rem/1 var(--f-title);letter-spacing:.14em;text-transform:uppercase;box-shadow:inset 0 0 0 2px var(--line);transition:.3s}
+.fbtn:hover{box-shadow:inset 0 0 0 2px var(--accent)}
+.fbtn.on{background:var(--accent);color:#0A0C09;box-shadow:none}
+.grid{display:grid;grid-template-columns:1fr;gap:1.2rem}
+.card{background:var(--card);border:1px solid var(--line);transition:transform .25s var(--ease),border-color .3s,opacity .4s;transform-style:preserve-3d;will-change:transform}
+.card:hover{border-color:var(--accent)}
+.card.hide{display:none}
+.ph{aspect-ratio:4/4.4;position:relative;display:grid;place-items:center;background:repeating-linear-gradient(-45deg,#12150f 0 14px,#171a14 14px 28px);overflow:hidden}
+.ph:before{content:"";position:absolute;inset:14px;border:1px dashed rgba(200,255,26,.35)}
+.ph small{font:800 .8rem/1.3 var(--f-title);letter-spacing:.25em;text-transform:uppercase;color:var(--muted);text-align:center;padding:0 2rem}
+.tag{position:absolute;top:14px;left:0;background:var(--accent);color:#0A0C09;font:800 .8rem/1 var(--f-title);letter-spacing:.15em;text-transform:uppercase;padding:.45rem .8rem .45rem 1.1rem;z-index:2}
+.info{padding:1.2rem 1.2rem 1.4rem}
+.info h3{font:800 1.6rem/1.05 var(--f-title);text-transform:uppercase;letter-spacing:.02em}
+.info p{color:var(--muted);font-size:.92rem;margin:.3rem 0 .9rem}
+.price{font:900 1.5rem/1 var(--f-title);color:var(--accent);margin-bottom:1rem;letter-spacing:.04em}
+.acts{display:flex;gap:.6rem;flex-wrap:wrap}
+.acts .btn{padding:.8rem 1.1rem;font-size:.9rem}
+
+/* personalizados */
+.custom{background:var(--accent);color:#0A0C09;overflow:hidden}
+.custom h2 em{color:var(--text);-webkit-text-stroke:0}
+.custom .eyebrow{color:#0A0C09}.custom .eyebrow:before{background:#0A0C09}
+.custom .lead{color:#26300a}
+.cgrid{display:grid;gap:2.5rem}
+.steps{list-style:none;display:grid;gap:1rem;counter-reset:s}
+.steps li{counter-increment:s;background:#0A0C09;color:var(--text);padding:1.3rem 1.4rem 1.3rem 5rem;position:relative;transition:transform .3s var(--ease)}
+.steps li:hover{transform:translateX(10px)}
+.steps li:before{content:counter(s,decimal-leading-zero);position:absolute;left:1.2rem;top:50%;transform:translateY(-50%);font:900 2.6rem/1 var(--f-title);color:var(--accent)}
+.steps b{font:800 1.3rem/1.1 var(--f-title);text-transform:uppercase;letter-spacing:.05em;display:block}
+.steps span{color:var(--muted);font-size:.93rem}
+.big{position:absolute;right:-2rem;bottom:-3rem;font:900 clamp(8rem,28vw,22rem)/1 var(--f-title);color:rgba(10,12,9,.08);pointer-events:none;user-select:none}
+
+/* cómo pedir */
+.how{display:grid;gap:1.2rem;margin-top:2.5rem}
+.box{border:1px solid var(--line);padding:1.6rem;background:var(--card);transition:border-color .3s,transform .3s var(--ease)}
+.box:hover{border-color:var(--accent);transform:translateY(-4px)}
+.box h3{font:800 1.5rem/1 var(--f-title);text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:.6rem}
+.box p{color:var(--muted)}
+
+/* faq */
+.faq{margin-top:2.5rem;border-top:1px solid var(--line)}
+.q{border-bottom:1px solid var(--line)}
+.q button{width:100%;display:flex;justify-content:space-between;gap:1rem;align-items:center;text-align:left;padding:1.3rem 0;font:800 1.35rem/1.15 var(--f-title);text-transform:uppercase;letter-spacing:.05em;transition:color .3s}
+.q button:hover{color:var(--accent)}
+.q button i{width:26px;height:26px;position:relative;flex:none}
+.q button i:before,.q button i:after{content:"";position:absolute;background:var(--accent);left:3px;right:3px;top:12px;height:3px;transition:transform .4s var(--ease)}
+.q button i:after{transform:rotate(90deg)}
+.q.open button i:after{transform:rotate(0)}
+.a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.a>div{overflow:hidden;color:var(--muted)}
+.a p{padding-bottom:1.3rem;max-width:60ch}
+.q.open .a{grid-template-rows:1fr}
+
+/* contacto */
+.cwrap{display:grid;gap:2.5rem;margin-top:2.5rem}
+.clist{list-style:none;display:grid;gap:.4rem}
+.clist a{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line);transition:padding .3s var(--ease),color .3s}
+.clist a:hover{padding-left:.8rem;color:var(--accent)}
+.clist b{font:800 .9rem/1.6 var(--f-title);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+form{display:grid;gap:1rem;background:var(--card);padding:1.6rem;border:1px solid var(--line)}
+label{display:grid;gap:.4rem;font:800 .85rem/1 var(--f-title);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+input,textarea,select{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);padding:.9rem;font:inherit;outline:0;transition:border-color .3s,box-shadow .3s}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,255,26,.15)}
+textarea{min-height:110px;resize:vertical}
+#fmsg{color:var(--accent);font-size:.9rem;min-height:1.2em}
+footer{border-top:1px solid var(--line);padding:2rem 0 6rem;color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
+
+/* whatsapp flotante */
+.wa{position:fixed;right:1.1rem;bottom:1.1rem;z-index:80;width:60px;height:60px;border-radius:50%;background:var(--accent);color:#0A0C09;display:grid;place-items:center;box-shadow:0 8px 28px rgba(200,255,26,.35);transition:transform .3s var(--ease)}
+.wa:hover{transform:scale(1.1) rotate(-6deg)}
+.wa:before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);animation:ping 2s infinite}
+@keyframes ping{to{transform:scale(1.7);opacity:0}}
+.wa svg{width:30px;height:30px;fill:currentColor}
+
+/* aparición al scroll */
+.rv{opacity:0;transform:translateY(40px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+/* tablet y compu */
+@media(min-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.how{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:980px){
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .cgrid{grid-template-columns:1fr 1fr;align-items:center}
+  .cwrap{grid-template-columns:1fr 1fr}
+}
+@media(max-width:820px){
+  .burger{display:block}
+  .menu{position:fixed;inset:0;background:var(--bg);flex-direction:column;justify-content:center;align-items:flex-start;padding:2rem 2.5rem;gap:1.2rem;clip-path:circle(0 at calc(100% - 40px) 32px);transition:clip-path .7s var(--ease);z-index:65}
+  .menu.on{clip-path:circle(150% at calc(100% - 40px) 32px)}
+  .menu a{font:900 clamp(2.5rem,12vw,4rem)/1 var(--f-title);letter-spacing:.02em}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .hero h1 .ch,.hero-bottom,.rv{opacity:1;transform:none}
+  #glow{display:none}
+}
+</style>
+</head>
+<body>
+<div id="prog"></div><div id="glow"></div>
+
+<header id="hd">
+  <div class="wrap nav">
+    <a href="#inicio" class="logo">ATR<b>.</b>Ciclismo</a>
+    <ul class="menu" id="menu">
+      <li><a href="#catalogo">Catálogo</a></li>
+      <li><a href="#personalizados">Diseños</a></li>
+      <li><a href="#pedir">Cómo pedir</a></li>
+      <li><a href="#faq">Preguntas</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Abrir menú"><i></i><i></i><i></i></button>
+  </div>
+</header>
+
+<main>
+<!-- 1. PORTADA -->
+<section class="hero" id="inicio">
+  <div class="lines"><span></span><span></span><span></span><span></span></div>
+  <div class="wrap">
+    <!-- FOTO (opcional): una foto de ciclistas o runners con la ropa de ATR, se puede sumar a la derecha del título -->
+    <h1 id="h1"><span class="ln">Vestí</span><span class="ln">tu</span><span class="ln">ritmo</span></h1>
+    <div class="hero-bottom">
+      <p>Indumentaria deportiva de calidad, con diseños exclusivos y personalizados. Para ciclismo, running, caminatas y gimnasio.</p>
+      <div class="hero-cta">
+        <a href="#catalogo" class="btn btn-main">Ver catálogo</a>
+        <a href="#" data-wa="Hola! Quiero hacer una consulta sobre la indumentaria de ATR." class="btn btn-ghost">Consultar por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+  <div class="ticker" aria-hidden="true"><div>
+    <span>Ciclismo ★ Running ★ Trekking ★ Gym ★ Maratones ★ Diseños exclusivos ★ </span>
+    <span>Ciclismo ★ Running ★ Trekking ★ Gym ★ Maratones ★ Diseños exclusivos ★ </span>
+  </div></div>
+</section>
+
+<!-- 2. CATÁLOGO -->
+<section id="catalogo">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">Catálogo</div><h2>Hecho para <em>moverte</em></h2>
+    <p class="lead mark">TEXTO DE EJEMPLO: reemplazá por la descripción de tu línea de productos.</p></div>
+    <div class="filters rv" id="filters">
+      <button class="fbtn on" data-f="all">Todo</button>
+      <button class="fbtn" data-f="ciclismo">Ciclismo</button>
+      <button class="fbtn" data-f="running">Running</button>
+      <button class="fbtn" data-f="gym">Caminata / Gym</button>
+      <button class="fbtn" data-f="accesorios">Accesorios</button>
+    </div>
+    <div class="grid" id="grid">
+      <!-- PRODUCTOS DE EJEMPLO: cambiá nombre, descripción y precio de cada tarjeta -->
+      <article class="card rv" data-c="ciclismo">
+        <div class="ph"><span class="tag">Ciclismo</span><!-- FOTO: remera de ciclismo, vista frontal --><small>Foto del producto</small></div>
+        <div class="info"><h3>Remera de ciclismo</h3><p>Ejemplo: tela técnica, secado rápido.</p><div class="price">A DEFINIR</div>
+        <div class="acts">
+          <!-- MERCADO PAGO: pegá acá el link de pago de este producto, dentro del href -->
+          <a href="#" class="btn btn-main">Comprar</a>
+          <a href="#" data-wa="Hola! Quiero consultar por la Remera de ciclismo." class="btn btn-ghost">Consultar</a>
+        </div></div>
+      </article>
+      <article class="card rv" data-c="ciclismo" style="--d:.08s">
+        <div class="ph"><span class="tag">Ciclismo</span><!-- FOTO: conjunto de ciclismo (remera y calza) --><small>Foto del producto</small></div>
+        <div class="info"><h3>Conjunto de ciclismo</h3><p>Ejemplo: remera y culote, diseño a elección.</p><div class="price">A DEFINIR</div>
+        <div class="acts">
+          <!-- MERCADO PAGO: pegá acá el link de pago -->
+          <a href="#" class="btn btn-main">Comprar</a>
+          <a href="#" data-wa="Hola! Quiero consultar por el Conjunto de ciclismo." class="btn btn-ghost">Consultar</a>
+        </div></div>
+      </article>
+      <article class="card rv" data-c="running" style="--d:.16s">
+        <div class="ph"><span class="tag">Running</span><!-- FOTO: remera o musculosa de running --><small>Foto del producto</small></div>
+        <div class="info"><h3>Remera de running</h3><p>Ejemplo: liviana y respirable para maratones.</p><div class="price">A DEFINIR</div>
+        <div class="acts">
+          <!-- MERCADO PAGO: pegá acá el link de pago -->
+          <a href="#" class="btn btn-main">Comprar</a>
+          <a href="#" data-wa="Hola! Quiero consultar por la Remera de running." class="btn btn-ghost">Consultar</a>
+        </div></div>
+      </article>
+      <article class="card rv" data-c="gym">
+        <div class="ph"><span class="tag">Gym</span><!-- FOTO: campera o buzo deportivo --><small>Foto del producto</small></div>
+        <div class="info"><h3>Campera deportiva</h3><p>Ejemplo: cortaviento para caminatas y entrenamiento.</p><div class="price">A DEFINIR</div>
+        <div class="acts">
+          <!-- MERCADO PAGO: pegá acá el link de pago -->
+          <a href="#" class="btn btn-main">Comprar</a>
+          <a href="#" data-wa="Hola! Quiero consultar por la Campera deportiva." class="btn btn-ghost">Consultar</a>
+        </div></div>
+      </article>
+      <article class="card rv" data-c="accesorios" style="--d:.08s">
+        <div class="ph"><span class="tag">Accesorios</span><!-- FOTO: medias técnicas --><small>Foto del producto</small></div>
+        <div class="info"><h3>Medias técnicas</h3><p>Ejemplo: para ciclismo y running.</p><div class="price">A DEFINIR</div>
+        <div class="acts">
+          <!-- MERCADO PAGO: pegá acá el link de pago -->
+          <a href="#" class="btn btn-main">Comprar</a>
+          <a href="#" data-wa="Hola! Quiero consultar por las Medias técnicas." class="btn btn-ghost">Consultar</a>
+        </div></div>
+      </article>
+      <article class="card rv" data-c="accesorios" style="--d:.16s">
+        <div class="ph"><span class="tag">Accesorios</span><!-- FOTO: gorra o cuello/buff --><small>Foto del producto</small></div>
+        <div class="info"><h3>Gorra / Cuello</h3><p>Ejemplo: accesorio con diseño ATR.</p><div class="price">A DEFINIR</div>
+        <div class="acts">
+          <!-- MERCADO PAGO: pegá acá el link de pago -->
+          <a href="#" class="btn btn-main">Comprar</a>
+          <a href="#" data-wa="Hola! Quiero consultar por la Gorra / Cuello." class="btn btn-ghost">Consultar</a>
+        </div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 3. PERSONALIZADOS -->
+<section class="custom" id="personalizados">
+  <div class="big" aria-hidden="true">ATR</div>
+  <div class="wrap cgrid" style="position:relative">
+    <div class="rv">
+      <div class="eyebrow">Diseños exclusivos</div>
+      <h2>Tu equipo, <em>tu diseño</em></h2>
+      <p class="lead">Hacemos indumentaria personalizada para clubes, grupos de ciclismo, equipos de running y eventos. <span class="mark">TEXTO DE EJEMPLO: ajustalo a tu forma de trabajo.</span></p>
+      <p style="margin-top:1.6rem"><a href="#" data-wa="Hola! Quiero pedir presupuesto para un diseño personalizado." class="btn btn-line">Pedir presupuesto</a></p>
+    </div>
+    <ol class="steps">
+      <li class="rv"><b>Nos contás la idea</b><span>Por WhatsApp: colores, logo, cantidad y talles.</span></li>
+      <li class="rv" style="--d:.1s"><b>Te mostramos el diseño</b><span>Ajustamos hasta que quede como lo querés.</span></li>
+      <li class="rv" style="--d:.2s"><b>Lo fabricamos y lo recibís</b><span>Producción y entrega en los plazos acordados.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 4. CÓMO PEDIR -->
+<section id="pedir">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">Cómo pedir</div><h2>Fácil y <em>sin vueltas</em></h2></div>
+    <div class="how">
+      <div class="box rv"><h3>1 · Elegí</h3><p>Mirá el catálogo y elegí tus prendas. Si no ves lo que buscás, escribinos.</p></div>
+      <div class="box rv" style="--d:.1s"><h3>2 · Pagá</h3><p class="mark">EJEMPLO: pagás con Mercado Pago o acordás otra forma por WhatsApp.</p></div>
+      <div class="box rv" style="--d:.2s"><h3>3 · Recibí</h3><p class="mark">EJEMPLO: envíos a todo el país y retiro en persona. Completá tus zonas y plazos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. PREGUNTAS FRECUENTES -->
+<section id="faq">
+  <div class="wrap" style="max-width:900px">
+    <div class="rv"><div class="eyebrow">Preguntas</div><h2>Lo que <em>más nos preguntan</em></h2></div>
+    <div class="faq rv">
+      <div class="q"><button aria-expanded="false">¿Hacen diseños personalizados?<i></i></button><div class="a"><div><p class="mark">EJEMPLO: Sí. Escribinos por WhatsApp con tu idea y te pasamos un presupuesto.</p></div></div></div>
+      <div class="q"><button aria-expanded="false">¿Cuál es el pedido mínimo para personalizados?<i></i></button><div class="a"><div><p class="mark">EJEMPLO: completá con tu cantidad mínima real.</p></div></div></div>
+      <div class="q"><button aria-expanded="false">¿Cómo sé qué talle elegir?<i></i></button><div class="a"><div><p class="mark">EJEMPLO: te pasamos la tabla de talles por WhatsApp.</p></div></div></div>
+      <div class="q"><button aria-expanded="false">¿Cuánto tarda mi pedido?<i></i></button><div class="a"><div><p class="mark">EJEMPLO: completá con tus plazos reales de producción y entrega.</p></div></div></div>
+      <div class="q"><button aria-expanded="false">¿Qué formas de pago aceptan?<i></i></button><div class="a"><div><p class="mark">EJEMPLO: Mercado Pago, transferencia y efectivo. Ajustalo a lo que aceptes.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. CONTACTO -->
+<section id="contacto">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">Contacto</div><h2>Hablemos <em>de tu próximo diseño</em></h2></div>
+    <div class="cwrap">
+      <ul class="clist rv">
+        <!-- REEMPLAZÁ los datos marcados con los reales -->
+        <li><a href="#" data-wa="Hola! Quiero hacer una consulta."><b>WhatsApp</b><span class="mark">+54 9 XXX XXX-XXXX</span></a></li>
+        <li><a href="tel:+540000000000"><b>Teléfono 1</b><span class="mark">XXX XXX-XXXX</span></a></li>
+        <li><a href="tel:+540000000001"><b>Teléfono 2</b><span class="mark">XXX XXX-XXXX</span></a></li>
+        <li><a href="mailto:ejemplo@tudominio.com"><b>Mail</b><span class="mark">ejemplo@tudominio.com</span></a></li>
+        <li><a href="https://instagram.com/atrciclismo" target="_blank" rel="noopener"><b>Instagram</b><span>@atrciclismo</span></a></li>
+        <li><a href="https://facebook.com/" target="_blank" rel="noopener"><b>Facebook</b><span class="mark">PEGAR LINK DE TU PÁGINA</span></a></li>
+      </ul>
+      <form class="rv" id="form" style="--d:.1s">
+        <label>Nombre<input required placeholder="Tu nombre"></label>
+        <label>Qué necesitás<select><option>Consulta de productos</option><option>Presupuesto personalizado</option><option>Otra consulta</option></select></label>
+        <label>Mensaje<textarea placeholder="Contanos qué buscás"></textarea></label>
+        <button class="btn btn-main" type="submit">Enviar consulta</button>
+        <div id="fmsg" role="status"></div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© <span id="yr"></span> ATR Ciclismo e Indumentaria</span><span>Vestí tu ritmo.</span></div></footer>
+
+<a href="#" class="wa" data-wa="Hola! Quiero hacer una consulta." aria-label="Escribinos por WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.2c-.2.6-1.300 1.200-1.800 1.200-.5.1-1 .2-3.300-.7-2.800-1.200-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.900 0-1.400.7-2 1-2.300.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.400 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1.100c.2-.3.400-.2.600-.1l1.900.9c.3.100.5.200.5.300.1.200.1.800-.1 1.400Z"/></svg>
+</a>
+
+<script>
+// ===== PONÉ ACÁ TU NÚMERO DE WHATSAPP (con código de país y sin signos: 549 + código de área + número) =====
+const WA_NUMERO = "549XXXXXXXXXX"; // <-- REEMPLAZAR
+
+const $ = (s, c = document) => c.querySelector(s), $$ = (s, c = document) => [...c.querySelectorAll(s)];
+const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// links de WhatsApp
+$$('[data-wa]').forEach(a => {
+  a.href = 'https://wa.me/' + WA_NUMERO + '?text=' + encodeURIComponent(a.dataset.wa);
+  a.target = '_blank'; a.rel = 'noopener';
+});
+
+// título de portada letra por letra
+$$('#h1 .ln').forEach((ln, i) => {
+  const t = ln.textContent; ln.setAttribute('aria-label', t); ln.textContent = '';
+  [...t].forEach((c, j) => {
+    const s = document.createElement('span');
+    s.className = 'ch'; s.setAttribute('aria-hidden', 'true'); s.textContent = c;
+    s.style.animationDelay = (i * .22 + j * .05) + 's'; ln.appendChild(s);
+  });
+});
+
+// menú móvil
+const burger = $('#burger'), menu = $('#menu');
+const toggle = f => { const on = f ?? !menu.classList.contains('on'); menu.classList.toggle('on', on); burger.classList.toggle('on', on); document.body.style.overflow = on ? 'hidden' : ''; };
+burger.onclick = () => toggle();
+$$('#menu a').forEach(a => a.onclick = () => toggle(false));
+
+// scroll: barra de progreso y header
+const hd = $('#hd'), prog = $('#prog');
+const onScroll = () => {
+  const h = document.documentElement;
+  prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  hd.classList.toggle('sc', h.scrollTop > 30);
+};
+addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+// aparición al scroll
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+$$('.rv').forEach(el => calm ? el.classList.add('in') : io.observe(el));
+
+// filtro del catálogo
+$$('.fbtn').forEach(b => b.onclick = () => {
+  $$('.fbtn').forEach(x => x.classList.remove('on')); b.classList.add('on');
+  $$('#grid .card').forEach(c => {
+    const show = b.dataset.f === 'all' || c.dataset.c === b.dataset.f;
+    c.classList.toggle('hide', !show);
+    if (show) c.classList.add('in');
+  });
+});
+
+// preguntas frecuentes
+$$('.q button').forEach(b => b.onclick = () => {
+  const q = b.parentElement, open = !q.classList.contains('open');
+  $$('.q.open').forEach(o => { o.classList.remove('open'); $('button', o).setAttribute('aria-expanded', 'false'); });
+  q.classList.toggle('open', open); b.setAttribute('aria-expanded', open);
+});
+
+// brillo que sigue al mouse e inclinación 3D de tarjetas (solo con mouse)
+if (!calm && matchMedia('(hover:hover)').matches) {
+  const g = $('#glow');
+  addEventListener('mousemove', e => { g.style.opacity = 1; g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px'; });
+  $$('.card').forEach(c => {
+    c.addEventListener('mousemove', e => {
+      const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      c.style.transition = 'transform .1s'; c.style.transform = `perspective(800px) rotateY(${x * 9}deg) rotateX(${-y * 9}deg) translateY(-6px)`;
+    });
+    c.addEventListener('mouseleave', () => { c.style.transition = 'transform .5s var(--ease)'; c.style.transform = ''; });
+  });
+}
+
+// formulario (solo visual: todavía no envía nada)
+$('#form').onsubmit = e => { e.preventDefault(); $('#fmsg').textContent = 'Formulario de muestra: todavía no envía datos. Escribinos por WhatsApp.'; };
+$('#yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
